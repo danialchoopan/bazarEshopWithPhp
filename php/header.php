@@ -65,7 +65,7 @@ require_once 'inc/mainInc.php';
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="">بلاگ</a>
+                        <a class="nav-link" href="<?php echo APP_URL . 'blog/index.php' ?>">بلاگ</a>
                     </li>
 
                     <li class="nav-item">

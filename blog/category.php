@@ -1,7 +1,9 @@
 <?php
 require_once '../php/header.php';
+$category_id = $_GET['category_id'];
+$category = getCategoryBlogById($category_id);
+$blogPosts = getBlogPostsByCategoryId($category_id);
 $blogCategories = readAllBlogCategories();
-$blogPosts = readAllBlogPosts();
 ?>
 <div class="card p-2">
     <div class="row">
@@ -21,6 +23,11 @@ $blogPosts = readAllBlogPosts();
             </ul>
         </div>
         <div class="col-10 p-3">
+            <?php if ($category_id == 0) { ?>
+                <h4 class="mb-3">دسته بندی نشده</h4>
+            <?php } else { ?>
+                <h4 class="mb-3"><?php echo $category['name'] ?></h4>
+            <?php } ?>
             <?php
             foreach ($blogPosts as $blog) {
                 ?>

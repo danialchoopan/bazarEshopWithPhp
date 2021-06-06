@@ -177,6 +177,10 @@ function getCategoryById($category_id)
 function getCategoryBlogById($category_id)
 {
     global $db_connection;
+    if ($category_id == 0) {
+        $result = $db_connection->query("SELECT * FROM `category_post` WHERE `id`='0'");
+        return $result->fetch();
+    }
     $result = $db_connection->query("SELECT * FROM `category_post` WHERE `id`='$category_id'");
     return $result->fetch();
 }
@@ -221,6 +225,13 @@ function readAllBlogPosts()
 {
     global $db_connection;
     $result = $db_connection->query("SELECT * FROM `posts` ");
+    return $result->fetchAll();
+}
+
+function getBlogPostsByCategoryId($category_id)
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `posts` WHERE `category_id`='$category_id'");
     return $result->fetchAll();
 }
 
