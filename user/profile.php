@@ -40,7 +40,7 @@ $user = checkIfUserLogin();
                         <a class="btn btn-primary m-1" href="<?php echo APP_URL . 'admin/index.php' ?>">ورود به بخش
                             مدیریت</a>
                     <?php } ?>
-                    <a class="btn btn-secondary m-1" href="">سفارش های من</a>
+                    <a class="btn btn-secondary m-1" href="<?php echo APP_URL . 'user/order/order.php' ?>">سفارش های من</a>
                     <a class="btn btn-danger m-1" href="<?php echo APP_URL . 'index.php?logoutUser=1' ?>">خروج از حساب
                         کاربری</a>
                 </div>

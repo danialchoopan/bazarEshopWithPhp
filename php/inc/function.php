@@ -295,8 +295,38 @@ function addOrder($phone, $userAddress, $description)
     foreach ($resultCart->fetchAll() as $cart) {
         $productsCart[] = $cart['product_id'];
     }
-    $prodcuts = serialize($productsCart);
+    $products = serialize($productsCart);
     $db_connection->query("DELETE FROM `cart` WHERE `user_id`='$user_id'");
-    $result = $db_connection->query("INSERT INTO `orders`(`user_id`, `products`, `status`, `user_address`, `description`,`phone`) VALUES ('$user_id','$prodcuts','0','$userAddress','$description','$phone')");
-    return $result->rowCount();
+    $result = $db_connection->query("INSERT INTO `orders`(`user_id`, `products`, `status`, `user_address`, `description`,`phone`) VALUES ('$user_id','$products','0','$userAddress','$description','$phone')");
+    return true;
+}
+
+function readAllUserOrders()
+{
+    global $db_connection;
+    $user_id = $_SESSION['user']['id'];
+    $result = $db_connection->query("SELECT * FROM `orders` WHERE `user_id`='$user_id'");
+    return $result->fetchAll();
+}
+
+function getUserOrderById($order_id)
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `orders` WHERE `id`='$order_id'");
+    return $result->fetch();
+}
+
+function searchProduct($search_query)
+{
+    global $db_connection;
+    $user_id = $_SESSION['user']['id'];
+    $result = $db_connection->query("SELECT * FROM `products` WHERE `name` LIKE '%$search_query%'");
+    return $result->fetchAll();
+}
+
+function readAllOrders()
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `orders`");
+    return $result->fetchAll();
 }

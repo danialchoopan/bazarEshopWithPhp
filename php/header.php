@@ -89,16 +89,17 @@ require_once 'inc/mainInc.php';
                                 (<?php echo checkIfUserLogin()['name'] ?>)</a>
                         </li>
                         <li class="nav-item d-flex align-content-end flex-wrap">
-                            <a class="nav-link d-inline"  href="<?php echo APP_URL . 'cart.php' ?>">سبد خرید
+                            <a class="nav-link d-inline" href="<?php echo APP_URL . 'cart.php' ?>">سبد خرید
                                 (<?php echo count(readUserCart()) ?>)
-                            <img src="<?php echo APP_URL . 'imgLocal/cart.png' ?>" class=" d-inline" height="20" alt=""></a>
+                                <img src="<?php echo APP_URL . 'imgLocal/cart.png' ?>" class=" d-inline" height="20"
+                                     alt=""></a>
                         </li>
                     <?php } ?>
 
 
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="جستجو" aria-label="Search">
+                <form class="d-flex" action="<?php echo APP_URL . 'search.php' ?>">
+                    <input class="form-control me-2" type="search" placeholder="جستجو" name="q" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">جستجو</button>
                 </form>
             </div>

@@ -77,6 +77,29 @@ require_once 'inc/mainInc.php';
                         </ul>
                     </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            سفارش ها
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <li><a class="dropdown-item"
+                                   href="<?php echo APP_URL . 'admin/orders/orders.php' ?>">تمامی سفارش ها</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item"
+                                   href="<?php echo APP_URL . 'admin/orders/valid_orders.php' ?>">سفارش های تایید
+                                    شده</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item"
+                                   href="<?php echo APP_URL . 'admin/orders/invalid_orders.php' ?>">سفارش تایید نشده</a>
+                            </li>
+
+                        </ul>
+                    </li>
 
                 </ul>
                 <div class="d-flex">

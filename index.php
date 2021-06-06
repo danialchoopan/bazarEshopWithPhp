@@ -1,25 +1,25 @@
 <?php
 require_once 'php/header.php';
-echo getMessageAlert()
 ?>
+<?php echo getMessageAlert(); ?>
 <div class="card p-2">
     <div class="row">
         <div class="col-4">
             <div class="row">
                 <div class="col">
-                    <img src="img/web/counter_strike_global_offensive_13-wallpaper-1280x720.jpg" height="100%"
+                    <img src="<?php echo APP_URL ?>img/web/counter_strike_global_offensive_13-wallpaper-1280x720.jpg" height="100%"
                          width="100%" alt="">
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col">
-                    <img src="img/web/counter_strike_global_offensive_13-wallpaper-1280x720.jpg" height="100%"
+                    <img src="<?php echo APP_URL ?>img/web/counter_strike_global_offensive_13-wallpaper-1280x720.jpg" height="100%"
                          width="100%" alt="">
                 </div>
             </div>
         </div>
         <div class="col-8">
-            <img src="img/web/counter_strike_global_offensive_13-wallpaper-1280x720.jpg" height="100%" width="100%"
+            <img src="<?php echo APP_URL ?>img/web/counter_strike_global_offensive_13-wallpaper-1280x720.jpg" height="100%" width="100%"
                  alt="">
         </div>
     </div>
@@ -66,10 +66,7 @@ echo getMessageAlert()
                     </div>
                 </a>
             <?php } ?>
-        </div
-        <?php
-        getMessageAlert();
-        ?>
+        </div>
     </div>
     <?php
     require_once 'php/footer.php'
