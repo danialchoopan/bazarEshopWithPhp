@@ -14,6 +14,11 @@ $categories = readAllProductCategories();
                        required>
             </div>
             <div class="mb-3">
+                <lable>قیمت محصول</lable>
+                <input type="text" name="ProductPrice" class="form-control" placeholder=""
+                       required>
+            </div>
+            <div class="mb-3">
                 <lable>عکس محصول</lable>
                 <input type="file" name="ProductPhoto" class="form-control"
                        required>

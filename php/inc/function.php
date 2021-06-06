@@ -113,27 +113,27 @@ function deleteProductCategory($id)
     return $result->rowCount();
 }
 
-function addProduct($name, $photo, $description, $category_id)
+function addProduct($name, $price, $photo, $description, $category_id)
 {
     global $db_connection;
     $create_at = time();
     $file_name = time() . $photo['name'];
     $tmp_photo = $photo['tmp_name'];
     move_uploaded_file($tmp_photo, dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $file_name);
-    $result = $db_connection->query("INSERT INTO `products`(`name`, `description`, `photo`, `category_product_id`, `created_at`) VALUES ('$name','$description','$file_name','$category_id','$create_at')");
+    $result = $db_connection->query("INSERT INTO `products`(`name`,`price`, `description`, `photo`, `category_product_id`, `created_at`) VALUES ('$name','$price','$description','$file_name','$category_id','$create_at')");
     return $result->rowCount();
 }
 
-function updateProduct($product_id, $name, $photo, $description, $category_id)
+function updateProduct($product_id, $name, $price, $photo, $description, $category_id)
 {
     global $db_connection;
     if ($photo) {
         $file_name = time() . $photo['name'];
         $tmp_photo = $photo['tmp_name'];
         move_uploaded_file($tmp_photo, dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $file_name);
-        $result = $db_connection->query("UPDATE `products` SET `name`='$name',`description`='$description',`photo`='$file_name',`category_product_id`='$category_id' WHERE `id`='$product_id'");
+        $result = $db_connection->query("UPDATE `products` SET `name`='$name',`price`=$price,`description`='$description',`photo`='$file_name',`category_product_id`='$category_id' WHERE `id`='$product_id'");
     } else {
-        $result = $db_connection->query("UPDATE `products` SET `name`='$name',`description`='$description',`category_product_id`='$category_id' WHERE `id`='$product_id'");
+        $result = $db_connection->query("UPDATE `products` SET `name`='$name',`price`=$price,`description`='$description',`category_product_id`='$category_id' WHERE `id`='$product_id'");
     }
     return $result->rowCount();
 }
@@ -144,6 +144,21 @@ function readAllProduct()
     $result = $db_connection->query("SELECT * FROM `products` ");
     return $result->fetchAll();
 }
+
+function latestProducts()
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `products` LIMIT 4");
+    return $result->fetchAll();
+}
+
+function readAllProductByCategoryId($category_id)
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `products` WHERE `category_product_id`='$category_id'");
+    return $result->fetchAll();
+}
+
 
 function getProductById($product_id)
 {
@@ -245,5 +260,28 @@ function updateBlogPost($blogPost_id, $title, $photo, $body, $category_id)
     } else {
         $result = $db_connection->query("UPDATE `posts` SET `title`='$title',`body`='$body',`category_id`='$category_id' WHERE `id`='$blogPost_id'");
     }
+    return $result->rowCount();
+}
+
+function addToCart($product_id)
+{
+    global $db_connection;
+    $user_id = $_SESSION['user']['id'];
+    $result = $db_connection->query("INSERT INTO `cart`(`user_id`, `product_id`) VALUES ('$user_id','$product_id')");
+    return $result->rowCount();
+}
+
+function readUserCart()
+{
+    global $db_connection;
+    $user_id = $_SESSION['user']['id'];
+    $result = $db_connection->query("SELECT * FROM `cart` WHERE `user_id`='$user_id'");
+    return $result->fetchAll();
+}
+
+function deleteFromCart($id)
+{
+    global $db_connection;
+    $result = $db_connection->query("DELETE FROM `cart` WHERE `id`='$id'");
     return $result->rowCount();
 }

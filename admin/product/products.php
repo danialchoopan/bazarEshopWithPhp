@@ -12,6 +12,7 @@ $products = readAllProduct();
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">نام</th>
+                <th scope="col">قیمت</th>
                 <th scope="col">درسته بندی</th>
                 <th scope="col">نماد</th>
                 <th scope="col"></th>
@@ -22,6 +23,7 @@ $products = readAllProduct();
                 <tr>
                     <th scope="row"><?php echo $product['id'] ?></th>
                     <td><?php echo $product['name'] ?></td>
+                    <td><?php echo $product['price'] ?></td>
                     <td><?php echo getCategoryById($product['category_product_id'])['name'] ?></td>
                     <td>
                         <img src="<?php echo APP_URL . 'img/' . $product['photo'] ?>" width="100"></td>

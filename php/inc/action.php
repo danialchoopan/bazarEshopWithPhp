@@ -35,10 +35,11 @@ if (isset($_POST['addProductCategory'])) {
 }
 if (isset($_POST['addProduct'])) {
     $name = $_POST['ProductName'];
+    $price = $_POST['ProductPrice'];
     $description = $_POST['ProductDescription'];
     $category_id = $_POST['ProductCategory'];
     $photo = $_FILES['ProductPhoto'];
-    if (addProduct($name, $photo, $description, $category_id)) {
+    if (addProduct($name, $price, $photo, $description, $category_id)) {
         setMessageAlert(" محصول شما با موفقیت افزوده شده", true);
         header('location: ' . APP_URL . 'admin/product/products.php');
     } else {
@@ -49,10 +50,11 @@ if (isset($_POST['updateProduct'])) {
     $product_id = $_POST['idProduct'];
     if (isset($_FILES['ProductPhoto']) && $_FILES['ProductPhoto']['name'] != "") {
         $name = $_POST['ProductName'];
+        $price = $_POST['ProductPrice'];
         $description = $_POST['ProductDescription'];
         $category_id = $_POST['ProductCategory'];
         $photo = $_FILES['ProductPhoto'];
-        if (updateProduct($product_id, $name, $photo, $description, $category_id)) {
+        if (updateProduct($product_id, $name, $price, $photo, $description, $category_id)) {
             setMessageAlert(" محصول شما با موفقیت افزوده شده", true);
             header('location: ' . APP_URL . 'admin/product/products.php');
         } else {
@@ -60,10 +62,11 @@ if (isset($_POST['updateProduct'])) {
         }
     } else {
         $name = $_POST['ProductName'];
+        $price = $_POST['ProductPrice'];
         $description = $_POST['ProductDescription'];
         $category_id = $_POST['ProductCategory'];
         $photo = 0;
-        if (updateProduct($product_id, $name, $photo, $description, $category_id)) {
+        if (updateProduct($product_id, $name, $price, $photo, $description, $category_id)) {
             setMessageAlert(" محصول شما با موفقیت افزوده شده", true);
             header('location: ' . APP_URL . 'admin/product/products.php');
         } else {
@@ -155,6 +158,25 @@ if (isset($_GET['deleteBlogPostId'])) {
     $blogPostId = $_GET['deleteBlogPostId'];
     if (deleteBlogPosts($blogPostId)) {
         setMessageAlert("پست شما با موفقیت حذف شده", true);
+    } else {
+        setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
+    }
+}
+
+if (isset($_GET['AddCartProduct_id'])) {
+    $product_id = $_GET['AddCartProduct_id'];
+    if (addToCart($product_id)) {
+        setMessageAlert("محصول شما به سبد خرید اضافه شد", true);
+    } else {
+        setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
+    }
+    header('location: ' . APP_URL . 'cart.php');
+}
+
+if (isset($_GET['deleteProductFromCart'])) {
+    $cart_id = $_GET['deleteProductFromCart'];
+    if (deleteFromCart($cart_id)) {
+        setMessageAlert("محصول شما با موفقیت از سبد خرید حذف شد", true);
     } else {
         setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
     }

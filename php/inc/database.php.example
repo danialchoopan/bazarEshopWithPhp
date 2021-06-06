@@ -1,5 +1,7 @@
 <?php
+session_start();
 define('APP_NAME', '');
+define('APP_URL', '');
 //database connection
 $db_host = "";
 $db_name = "";

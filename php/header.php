@@ -24,11 +24,11 @@ require_once 'inc/mainInc.php';
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">صفحه اصلی</a>
+                        <a class="nav-link" href="<?php echo APP_URL ?>">صفحه اصلی</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">تمامی محصولات</a>
+                        <a class="nav-link" href="<?php echo APP_URL . '/products.php' ?>">تمامی محصولات</a>
                     </li>
 
 
@@ -38,21 +38,38 @@ require_once 'inc/mainInc.php';
                             دسته بندی ها
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <?php
+                            $productCategories = readAllProductCategories();
+                            foreach ($productCategories as $productCategory) {
+                                ?>
+                                <li class="dropdown-item">
+                                    <div class="row">
+                                        <div class="col text-center">
+                                            <a class="text-decoration-none " style="color: black"
+                                               href="<?php echo APP_URL . 'category.php?category_id=' . $productCategory['id'] ?>"><?php echo $productCategory['name'] ?></a>
+                                        </div>
+                                        <div class="col">
+                                            <img src="<?php echo APP_URL . 'img/' . $productCategory['photo'] ?>"
+                                                 width="100%"
+                                                 alt="">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <?php
+                            }
+                            ?>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">بلاگ</a>
+                        <a class="nav-link" href="">بلاگ</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">درباره ما</a>
+                        <a class="nav-link" href="<?php echo APP_URL . 'aboutus.php' ?>">درباره ما</a>
                     </li>
                     <?php
                     if (!checkIfUserLogin()) {

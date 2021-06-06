@@ -19,6 +19,13 @@ $product = getProductById($product_id);
             </div>
 
             <div class="mb-3">
+                <lable>قیمت محصول</lable>
+                <input type="text" name="ProductPrice" class="form-control" placeholder=""
+                       value="<?php echo $product['price'] ?>"
+                       required>
+            </div>
+
+            <div class="mb-3">
                 <div class="row">
                     <div class="col">
                         <div class="mb-3">
