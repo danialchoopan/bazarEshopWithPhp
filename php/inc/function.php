@@ -330,3 +330,17 @@ function readAllOrders()
     $result = $db_connection->query("SELECT * FROM `orders`");
     return $result->fetchAll();
 }
+
+function readAllOrdersByStatus($status)
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `orders` WHERE `status`='$status'");
+    return $result->fetchAll();
+}
+
+function updateOrdersByStatus($order_id, $status)
+{
+    global $db_connection;
+    $result = $db_connection->query("UPDATE `orders` SET `status`='$status' WHERE `id`='$order_id'");
+    return $result->rowCount();
+}

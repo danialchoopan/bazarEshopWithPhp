@@ -191,3 +191,12 @@ if (isset($_GET['deleteProductFromCart'])) {
         setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
     }
 }
+
+if (isset($_GET['valid_order_id'])) {
+    $order_id = $_GET['valid_order_id'];
+    if (updateOrdersByStatus($order_id, 1)) {
+        setMessageAlert("بروزرسانی وضعیت با موفقیت انجام شد", true);
+    } else {
+        setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
+    }
+}
