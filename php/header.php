@@ -88,6 +88,11 @@ require_once 'inc/mainInc.php';
                             <a class="nav-link" href="<?php echo APP_URL . 'user/profile.php' ?>">پروفایل
                                 (<?php echo checkIfUserLogin()['name'] ?>)</a>
                         </li>
+                        <li class="nav-item d-flex align-content-end flex-wrap">
+                            <a class="nav-link d-inline"  href="<?php echo APP_URL . 'cart.php' ?>">سبد خرید
+                                (<?php echo count(readUserCart()) ?>)
+                            <img src="<?php echo APP_URL . 'imgLocal/cart.png' ?>" class=" d-inline" height="20" alt=""></a>
+                        </li>
                     <?php } ?>
 
 

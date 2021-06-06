@@ -285,3 +285,18 @@ function deleteFromCart($id)
     $result = $db_connection->query("DELETE FROM `cart` WHERE `id`='$id'");
     return $result->rowCount();
 }
+
+function addOrder($phone, $userAddress, $description)
+{
+    global $db_connection;
+    $user_id = $_SESSION['user']['id'];
+    $resultCart = $db_connection->query("SELECT * FROM `cart` WHERE `user_id`='$user_id'");
+    $productsCart = [];
+    foreach ($resultCart->fetchAll() as $cart) {
+        $productsCart[] = $cart['product_id'];
+    }
+    $prodcuts = serialize($productsCart);
+    $db_connection->query("DELETE FROM `cart` WHERE `user_id`='$user_id'");
+    $result = $db_connection->query("INSERT INTO `orders`(`user_id`, `products`, `status`, `user_address`, `description`,`phone`) VALUES ('$user_id','$prodcuts','0','$userAddress','$description','$phone')");
+    return $result->rowCount();
+}

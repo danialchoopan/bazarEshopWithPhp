@@ -7,7 +7,7 @@ if (isset($_POST['registerUser'])) {
     $password = $_POST['registerUser_password'];
     if (registerUser($name, $last_name, $phone, $email, $password)) {
         setMessageAlert("شما با موفقیت نام نویسی شده اید", true);
-        header('location: index.php');
+        header('location: ' . APP_URL . 'index.php');
     } else {
         setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
     }
@@ -18,7 +18,7 @@ if (isset($_POST['loginUser'])) {
     $password = $_POST['loginUser_password'];
     if (loginUser($email, $password)) {
         setMessageAlert("شما با موفقیت وارد شده اید", true);
-        header('location: index.php');
+        header('location: ' . APP_URL . 'index.php');
     } else {
         setMessageAlert("لطفا رمزعبور و نام کاربری خود را برسی کنید", false);
     }
@@ -123,7 +123,17 @@ if (isset($_POST['updatePostBlog'])) {
         }
     }
 }
-
+if (isset($_POST['addOrderUser'])) {
+    $phone = $_POST['orderPhone'];
+    $address = $_POST['orderAddress'];
+    $description = $_POST['orderDescription'];
+    if (addOrder($phone, $address, $description)) {
+        setMessageAlert("سفارش شما با موفیت ثبت شد", true);
+        header('location: ' . APP_URL . 'index.php');
+    } else {
+        setMessageAlert("مشکلی پیش آمده است لطفا بعدا امتحان کنید", false);
+    }
+}
 //get
 if (isset($_GET['logoutUser'])) {
     logoutUser();

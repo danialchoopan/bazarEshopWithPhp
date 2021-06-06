@@ -44,7 +44,7 @@ $amout = 0;
             <p class="m-1 d-inline"></p>
             <p style="color:#008F00 " class="d-inline"><?php echo number_format($amout) . ' تومان '; ?></p>
             <p class="m-1 d-inline"></p>
-            <a href="" class="btn btn-success d-inline">ادامه فراید خرید</a>
+            <a href="<?php echo APP_URL . 'addOrder.php' ?>" class="btn btn-success d-inline">ادامه فراید خرید</a>
             <p class="m-1 d-inline"></p>
         </div>
         <div class="clearfix"></div>
