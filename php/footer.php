@@ -16,13 +16,10 @@
                 <h5 class="font-weight-bold text-uppercase mt-3 mb-4">لینک ها</h5>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="#!">صفحه اصلی</a>
+                        <a href="<?php echo APP_URL . 'index.php' ?>">صفحه اصلی</a>
                     </li>
                     <li>
-                        <a href="#!">محصولات</a>
-                    </li>
-                    <li>
-                        <a href="#!">دسته بندی ها</a>
+                        <a href="<?php echo APP_URL . 'products.php' ?>">محصولات</a>
                     </li>
                 </ul>
             </div>
@@ -31,10 +28,7 @@
                 <h5 class="font-weight-bold text-uppercase mt-3 mb-4">وبلاگ</h5>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="#!">تمامی پست ها</a>
-                    </li>
-                    <li>
-                        <a href="#!">دسته بند های وبلاگ</a>
+                        <a href="<?php echo APP_URL . 'blog/index.php' ?>">تمامی پست ها</a>
                     </li>
                 </ul>
 
@@ -44,10 +38,10 @@
                 <h5 class="font-weight-bold text-uppercase mt-3 mb-4">ورود</h5>
                 <ul class="list-unstyled">
                     <li>
-                        <a href="#!">ورود کاربر</a>
+                        <a href="<?php echo APP_URL . 'user/register.php' ?>">ورود کاربر</a>
                     </li>
                     <li>
-                        <a href="#!">نام نویسی</a>
+                        <a href="<?php echo APP_URL . 'user/login.php' ?>">نام نویسی</a>
                     </li>
                 </ul>
             </div>

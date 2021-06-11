@@ -355,3 +355,10 @@ function updateOrdersByStatus($order_id, $status)
     $result = $db_connection->query("UPDATE `orders` SET `status`='$status' WHERE `id`='$order_id'");
     return $result->rowCount();
 }
+
+function readAllUserOrdersById($user_id)
+{
+    global $db_connection;
+    $result = $db_connection->query("SELECT * FROM `orders` WHERE `user_id`='$user_id'");
+    return $result->fetchAll();
+}

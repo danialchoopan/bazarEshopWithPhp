@@ -8,7 +8,7 @@ $users = readAllUsers();
     <?php echo getMessageAlert() ?>
     <?php if (count($users)) { ?>
         <table class="table table-hover table-bordered text-center align-middle table-dark">
-            <thead >
+            <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">نام</th>
@@ -27,7 +27,7 @@ $users = readAllUsers();
                     <td><?php echo $user['email'] ?></td>
                     <td><?php echo $user['phone'] ?></td>
                     <td>
-                        <a href="<?php echo APP_URL . 'admin/user/orders.php' ?>?user_id=<?php echo $user['id'] ?>"
+                        <a href="<?php echo APP_URL . 'admin/user/user_order.php' ?>?user_id=<?php echo $user['id'] ?>"
                            class="btn btn-outline-primary">نمایش سابفه سفارشات این کاربر</a>
                     </td>
                 </tr>

@@ -106,6 +106,8 @@ require_once 'inc/mainInc.php';
 
                     <a class="nav-link text-decoration-none" href="<?php echo APP_URL . 'index.php?logoutUser=1' ?>">خروج
                         (<?php echo checkIfUserLogin()['name'] ?>)</a>
+                    <a class="nav-link text-decoration-none" target="_blank" href="<?php echo APP_URL . 'index.php' ?>">مشاهده
+                        وبسابت</a>
                 </div>
             </div>
         </div>
