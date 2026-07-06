@@ -2,6 +2,8 @@
 
 فروشگاه آنلاین ساخته شده با PHP خالص (Vanilla PHP) با پشتیبانی از زبان فارسی و راست‌چین (RTL).
 
+> این پروژه یکی از اولین کارهای من با PHP بود. بعد از چند سال تصمیم گرفتم دوباره بهش سر بزنم و با ساختار مدرن بازنویسیش کنم — از MVC و prepared statements گرفته تا داشبورد مدیریت و UI بهتر.
+
 ## امکانات
 
 ### فروشگاه
@@ -41,7 +43,6 @@
 
 - PHP 8.0 یا بالاتر
 - MySQL 5.7+ یا MariaDB 10.3+
-- Composer
 - قابلیت URL Rewrite (Apache mod_rewrite یا Nginx)
 
 ## نصب
@@ -52,29 +53,24 @@ git clone https://github.com/daniru/bazarEshopWithPhp.git
 cd bazarEshopWithPhp
 ```
 
-2. **نصب وابستگی‌ها**
-```bash
-composer install
-```
-
-3. **تنظیم محیط**
+2. **تنظیم محیط**
 ```bash
 cp .env.example .env
 ```
 فایل `.env` را ویرایش کنید و اطلاعات دیتابیس را وارد کنید.
 
-4. **ایجاد دیتابیس و جداول**
+3. **ایجاد دیتابیس و جداول**
 ```bash
-mysql -u root -p -e "CREATE DATABASE `em-reza-shop-db`"
-mysql -u root -p em-reza-shop-db < em-reza-shop-db.sql
-mysql -u root -p em-reza-shop-db < database/migrations/001_add_modernization_tables.sql
+mysql -u root -p -e "CREATE DATABASE `em-bazar-shop-db`"
+mysql -u root -p em-bazar-shop-db < em-bazar-shop-db.sql
+mysql -u root -p em-bazar-shop-db < database/migrations/001_add_modernization_tables.sql
 ```
 
-5. **تنظیم Web Server**
+4. **تنظیم Web Server**
    - Document Root را روی پوشه `public/` تنظیم کنید
    - مطمئن شوید mod_rewrite فعال است (برای Apache)
 
-6. **ورود به پنل مدیریت**
+5. **ورود به پنل مدیریت**
    - آدرس: `http://your-domain/admin`
    - ایمیل و رمز عبور کاربر ادمین موجود در دیتابیس را استفاده کنید
 
@@ -100,7 +96,7 @@ mysql -u root -p em-reza-shop-db < database/migrations/001_add_modernization_tab
 │       ├── layouts/        # قالب‌های اصلی
 │       ├── admin/          # قالب‌های پنل مدیریت
 │       └── ...             # قالب‌های بخش‌های مختلف
-└── em-reza-shop-db.sql     # فایل دیتابیس اولیه
+└── em-bazar-shop-db.sql    # فایل دیتابیس اولیه
 ```
 
 ## مجوز
