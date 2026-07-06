@@ -1,6 +1,6 @@
 # بازار - فروشگاه آنلاین
 
-فروشگاه آنلاین ساخته شده با PHP خالص (Vanilla PHP) با پشتیبانی از زبان فارسی و راست‌چین (RTL).
+فروشگاه آنلاین ساخته شده با PHP خالص (Vanilla PHP)
 
 > این پروژه یکی از اولین کارهای من با PHP بود. بعد از چند سال تصمیم گرفتم دوباره بهش سر بزنم و با ساختار مدرن بازنویسیش کنم — از MVC و prepared statements گرفته تا داشبورد مدیریت و UI بهتر.
 
@@ -114,7 +114,7 @@ MIT License
 
 # Bazar - Online Store
 
-An online store built with vanilla PHP with full Persian/Farsi RTL support.
+An online store built with vanilla PHP 
 
 > This was one of my first PHP projects. After a few years I decided to revisit it and rewrite it with a modern architecture — from MVC and prepared statements to an admin dashboard and improved UI.
 
