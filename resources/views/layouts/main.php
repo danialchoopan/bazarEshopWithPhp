@@ -100,6 +100,47 @@ $_csrfToken = \App\Middleware\Csrf::token();
     <?php endif; ?>
 </div>
 
+<!-- Mobile Bottom Nav -->
+<nav class="mobile-bottom-nav d-lg-none">
+    <div class="container">
+        <ul class="nav justify-content-around">
+            <li class="nav-item">
+                <a href="/" class="nav-link <?= parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/' ? 'active' : '' ?>">
+                    <i class="bi bi-house-fill"></i>
+                    <span>خانه</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/products" class="nav-link <?= str_starts_with(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/product') || str_starts_with(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/category') ? 'active' : '' ?>">
+                    <i class="bi bi-grid"></i>
+                    <span>محصولات</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/cart" class="nav-link <?= parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/cart' ? 'active' : '' ?> position-relative">
+                    <i class="bi bi-cart3"></i>
+                    <span>سبد خرید</span>
+                    <?php if ($_cartCount > 0): ?>
+                        <span class="badge rounded-pill bg-danger"><?= $_cartCount ?></span>
+                    <?php endif; ?>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/blog" class="nav-link <?= str_starts_with(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/blog') ? 'active' : '' ?>">
+                    <i class="bi bi-journal-text"></i>
+                    <span>بلاگ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= $_user ? '/profile' : '/login' ?>" class="nav-link <?= in_array(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ['/login', '/register', '/profile', '/orders']) ? 'active' : '' ?>">
+                    <i class="bi bi-person-fill"></i>
+                    <span><?= $_user ? 'پروفایل' : 'ورود' ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <!-- Scroll to Top -->
 <button id="scrollToTop" class="btn btn-primary position-fixed" style="bottom: 2rem; left: 2rem; width: 44px; height: 44px; border-radius: 12px; display: none; z-index: 999; box-shadow: 0 4px 12px rgba(79,70,229,0.35);">
     <i class="bi bi-arrow-up"></i>
