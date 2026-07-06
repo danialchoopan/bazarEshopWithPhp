@@ -1,4 +1,22 @@
+# Environment
+.env
+
+# IDE
+/.idea/
+/.vscode/
+
+# MiMoCode
+/.mimocode/
+
+# Old files (keep for reference)
 /php/inc/database.php
-/.idea/*
-/.idea
+
+# Uploads
 /img/*
+!/img/.gitkeep
+/public/uploads/
+
+# Composer (keep vendor/autoload.php for our custom autoloader)
+/vendor/*
+!/vendor/autoload.php
+composer.lock

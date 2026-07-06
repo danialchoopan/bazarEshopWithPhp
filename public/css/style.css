@@ -1,0 +1,238 @@
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --accent: #f59e0b;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --danger: #ef4444;
+    --shadow: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+    --radius: 12px;
+}
+
+* {
+    font-family: 'Vazir', Tahoma, Arial, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Navbar */
+.navbar {
+    background: var(--card-bg) !important;
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand {
+    color: var(--primary) !important;
+    font-size: 1.3rem;
+}
+
+.nav-link {
+    color: var(--text) !important;
+    font-weight: 500;
+    padding: 0.5rem 0.8rem !important;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+    background: rgba(37, 99, 235, 0.05);
+}
+
+/* Product Cards */
+.product-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: var(--card-bg);
+}
+
+.product-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 1rem;
+}
+
+.product-card .product-price {
+    color: var(--success);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.product-card .product-title {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-accent {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Badges */
+.badge-stock {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+.badge-in-stock {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.badge-low-stock {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--accent);
+}
+
+.badge-out-of-stock {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+/* Footer */
+.site-footer {
+    background: var(--card-bg);
+    border-top: 1px solid var(--border);
+}
+
+/* Category Filter */
+.category-filter .btn {
+    border-radius: 20px;
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+}
+
+/* Cart */
+.cart-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: var(--card-bg);
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Checkout */
+.checkout-form .form-control,
+.checkout-form .form-select {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+/* Auth Forms */
+.auth-card {
+    max-width: 450px;
+    margin: 2rem auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    background: var(--card-bg);
+}
+
+.auth-card .form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+/* Blog */
+.blog-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.3s;
+    background: var(--card-bg);
+}
+
+.blog-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.blog-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+/* Pagination */
+.pagination .page-link {
+    border-radius: 8px;
+    margin: 0 2px;
+    border: 1px solid var(--border);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 1rem;
+    }
+
+    .hero-section h1 {
+        font-size: 1.5rem;
+    }
+
+    .product-card .card-img-top {
+        height: 150px;
+    }
+}

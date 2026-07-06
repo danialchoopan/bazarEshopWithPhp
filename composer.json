@@ -1,0 +1,18 @@
+{
+    "name": "daniru/bazar-eshop",
+    "description": "A modern PHP e-shop with Persian/Farsi RTL support",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
