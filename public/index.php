@@ -33,6 +33,7 @@ use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\BlogController;
 use App\Controllers\SearchController;
+use App\Controllers\AboutController;
 use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\ProductController as AdminProductController;
 use App\Controllers\Admin\OrderController;
@@ -76,6 +77,9 @@ $router->get('/orders', [UserController::class, 'orders'], [Auth::class, 'requir
 // Blog
 $router->get('/blog', [BlogController::class, 'index']);
 $router->get('/blog/{id}', [BlogController::class, 'show']);
+
+// About
+$router->get('/about', [AboutController::class, 'index']);
 
 // Admin routes
 $router->get('/admin', [DashboardController::class, 'index'], [Auth::class, 'requireAdmin']);

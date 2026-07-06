@@ -458,6 +458,60 @@ body {
     background: rgba(79, 70, 229, 0.02);
 }
 
+/* ===== Product Gallery ===== */
+.product-gallery {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.product-gallery:hover img {
+    opacity: 0.95;
+}
+
+/* ===== Toast Notifications ===== */
+.toast {
+    border-radius: var(--radius) !important;
+    border: none !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* ===== Scroll to Top ===== */
+#scrollToTop {
+    transition: var(--transition);
+    opacity: 0.9;
+}
+
+#scrollToTop:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+/* ===== Quantity Input ===== */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ===== Feature Icons ===== */
+.feature-icon {
+    transition: var(--transition);
+}
+
+.feature-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ===== Newsletter Section ===== */
+.newsletter-section {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .hero-section {
