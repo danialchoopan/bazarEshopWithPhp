@@ -1,22 +1,28 @@
-# Environment
+```
+# Database files
+*.db
+
+# Environment files
 .env
+.env.local
+*.env.*
 
-# IDE
-/.idea/
-/.vscode/
+# Logs
+*.log
 
-# MiMoCode
-/.mimocode/
+# Temporary files
+*.tmp
+*.swp
 
-# Old files (keep for reference)
-/php/inc/database.php
+# IDE files
+.vscode/
+.idea/
 
-# Uploads
-/img/*
-!/img/.gitkeep
-/public/uploads/
+# Dependencies
+vendor/
+node_modules/
 
-# Composer (keep vendor/autoload.php for our custom autoloader)
-/vendor/*
-!/vendor/autoload.php
-composer.lock
+# Build artifacts
+dist/
+build/
+```
