@@ -7,15 +7,55 @@
  * - Card hover effects
  * - Button animations
  * - Responsive improvements
+ * - Dashboard charts (pure CSS)
+ * - Toast notifications
+ * - Modal components
+ * - Product filters
  * 
- * @version 2.0
+ * @version 3.0
  */
 
 @import "bootstrap.rtl.min.css";
 
 /* ============================================================================
-   GLOBAL STYLES
+   GLOBAL STYLES & CSS VARIABLES
    ============================================================================ */
+
+:root {
+    /* Color Palette */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    --danger-gradient: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    --warning-gradient: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    
+    /* Base Colors */
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --dark-color: #2d3748;
+    --light-color: #f8f9fa;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.4);
+    
+    /* Transitions */
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+}
 
 * {
     font-family: Vazir;
@@ -24,12 +64,77 @@
 
 a {
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-base);
 }
 
 body {
     background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
     min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================================================
+   ANIMATION CLASSES
+   ============================================================================ */
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--transition-slow);
+}
+
+.animate-on-scroll.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ============================================================================
@@ -37,9 +142,10 @@ body {
    ============================================================================ */
 
 .navbar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: var(--primary-gradient) !important;
+    box-shadow: var(--shadow-md);
     padding: 1rem 0;
+    backdrop-filter: blur(10px);
 }
 
 .navbar-brand {
@@ -47,13 +153,18 @@ body {
     font-size: 1.5rem;
     color: #fff !important;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: var(--transition-base);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
 }
 
 .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     position: relative;
     padding: 0.5rem 1rem !important;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
 }
 
 .nav-link:hover {
@@ -69,7 +180,7 @@ body {
     width: 0;
     height: 2px;
     background: #fff;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
     transform: translateX(-50%);
 }
 
@@ -77,23 +188,54 @@ body {
     width: 80%;
 }
 
+/* Cart Badge */
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--danger-gradient);
+    color: #fff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: var(--shadow-sm);
+}
+
 /* ============================================================================
-   HERO SECTION ANIMATIONS
+   HERO SECTION
    ============================================================================ */
 
 .hero-section {
     animation: fadeInUp 0.8s ease-out;
+    padding: 4rem 0;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-xl);
+    color: #fff;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 3s infinite;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
 }
 
 /* ============================================================================
@@ -102,11 +244,15 @@ body {
 
 .card {
     border: none;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-base);
     overflow: hidden;
     background: #fff;
+}
+
+.product-card {
+    cursor: pointer;
 }
 
 .card:hover {
@@ -116,13 +262,13 @@ body {
 
 .card-img-top {
     border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
     height: 250px;
     object-fit: cover;
 }
 
 .card:hover .card-img-top {
-    border-bottom-color: #667eea;
+    border-bottom-color: var(--primary-color);
 }
 
 .card-body {
@@ -140,35 +286,76 @@ body {
     line-height: 1.6;
 }
 
+/* Quick View Button */
+.quick-view-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-md);
+}
+
+.product-card:hover .quick-view-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* ============================================================================
    BUTTON STYLES
    ============================================================================ */
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primary-gradient);
     border: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    background: var(--secondary-gradient);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 .btn-outline-success {
-    border: 2px solid #28a745;
-    color: #28a745;
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
 }
 
 .btn-outline-success:hover {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    background: var(--success-gradient);
     border-color: transparent;
     color: #fff;
     transform: translateY(-2px);
@@ -180,9 +367,19 @@ body {
    ============================================================================ */
 
 .text-success {
-    color: #28a745 !important;
+    color: var(--success-color) !important;
     font-weight: bold;
     font-size: 1.1rem;
+}
+
+.price-tag {
+    background: var(--success-gradient);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: bold;
+    display: inline-block;
+    box-shadow: var(--shadow-sm);
 }
 
 /* ============================================================================
@@ -191,43 +388,32 @@ body {
 
 .dropdown-menu {
     border: none;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
     padding: 0.5rem;
 }
 
 .dropdown-item {
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     padding: 0.75rem 1rem;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
 }
 
 .dropdown-item:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primary-gradient);
     color: #fff;
     transform: translateX(-5px);
 }
 
 /* ============================================================================
-   ALERTS
+   ALERTS & TOAST NOTIFICATIONS
    ============================================================================ */
 
 .alert {
     border: none;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
     animation: slideInDown 0.5s ease-out;
-}
-
-@keyframes slideInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .alert-success {
@@ -240,19 +426,56 @@ body {
     color: #721c24;
 }
 
+/* Toast Notifications */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: var(--transition-base);
+    border-right: 4px solid var(--primary-color);
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-notification.toast-success {
+    border-right-color: var(--success-color);
+}
+
+.toast-notification.toast-error {
+    border-right-color: var(--danger-color);
+}
+
+.toast-notification.toast-warning {
+    border-right-color: var(--warning-color);
+}
+
+.toast-notification.toast-info {
+    border-right-color: var(--info-color);
+}
+
 /* ============================================================================
    FORM INPUTS
    ============================================================================ */
 
 .form-control {
     border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 0.75rem 1rem;
-    transition: all 0.3s ease;
+    transition: var(--transition-base);
 }
 
 .form-control:focus {
-    border-color: #667eea;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
 }
 
@@ -261,10 +484,537 @@ body {
    ============================================================================ */
 
 footer {
-    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    background: linear-gradient(135deg, var(--dark-color) 0%, #1a202c 100%);
     color: #fff;
     padding: 2rem 0;
     margin-top: 3rem;
+}
+
+/* ============================================================================
+   SCROLL TO TOP BUTTON
+   ============================================================================ */
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================================================
+   MODAL COMPONENTS
+   ============================================================================ */
+
+.quick-view-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-base);
+}
+
+.quick-view-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    border-radius: var(--radius-xl);
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9);
+    transition: var(--transition-base);
+}
+
+.quick-view-modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    z-index: 10;
+    transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--danger-color);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================================
+   SEARCH FUNCTIONALITY
+   ============================================================================ */
+
+.live-search-input {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition-base);
+    z-index: 1000;
+}
+
+.search-results.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.search-result-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: var(--transition-fast);
+}
+
+.search-result-item:hover {
+    background: #f8f9fa;
+}
+
+.search-result-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+
+.result-info h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.result-info span {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.no-results {
+    padding: 2rem;
+    text-align: center;
+    color: #999;
+}
+
+/* ============================================================================
+   CART COMPONENTS
+   ============================================================================ */
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cart-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: var(--radius-md);
+    transition: var(--transition-base);
+}
+
+.cart-item:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateX(5px);
+}
+
+.cart-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+}
+
+.cart-item-details {
+    flex: 1;
+}
+
+.cart-item-name {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.cart-item-price {
+    color: var(--success-color);
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+}
+
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--primary-gradient);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.qty-btn:hover {
+    transform: scale(1.1);
+}
+
+.qty-value {
+    min-width: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: var(--transition-fast);
+}
+
+.remove-item-btn:hover {
+    transform: scale(1.2);
+}
+
+.empty-cart-message {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+}
+
+.empty-cart-img {
+    width: 120px;
+    height: 120px;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+/* ============================================================================
+   ADMIN DASHBOARD CHARTS (Pure CSS)
+   ============================================================================ */
+
+.chart-container {
+    padding: 2rem;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.chart-bars {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 300px;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.chart-bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-bar {
+    width: 100%;
+    max-width: 60px;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    transition: var(--transition-base);
+    position: relative;
+    min-height: 20px;
+}
+
+.chart-bar:hover {
+    filter: brightness(1.1);
+    transform: scaleY(1.05);
+}
+
+.chart-label {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+}
+
+.chart-value {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Donut Chart */
+.donut-chart {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 2rem auto;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--color, #667eea) calc(var(--percentage, 25) * 1%),
+        transparent 0
+    );
+}
+
+.donut-segment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--color) calc(var(--percentage) * 1%),
+        transparent 0
+    );
+}
+
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.total-count {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.total-label {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border-radius: var(--radius-sm);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-text {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.legend-value {
+    font-weight: bold;
+    color: #333;
+}
+
+/* ============================================================================
+   PRODUCT FILTERS
+   ============================================================================ */
+
+.filter-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e0e0e0;
+    background: #fff;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--primary-gradient);
+    border-color: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.sort-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.sort-select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* ============================================================================
+   MOBILE MENU
+   ============================================================================ */
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 280px;
+        height: calc(100vh - 70px);
+        background: #fff;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition-base);
+        padding: 2rem;
+        overflow-y: auto;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .nav-link {
+        display: block;
+        padding: 1rem !important;
+        color: #333 !important;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+}
+
+/* ============================================================================
+   LAZY LOADING IMAGES
+   ============================================================================ */
+
+img[data-src] {
+    opacity: 0;
+    transition: var(--transition-base);
+}
+
+img[data-src].loaded {
+    opacity: 1;
 }
 
 /* ============================================================================
@@ -284,55 +1034,52 @@ footer {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
+    
+    .hero-section {
+        padding: 2rem 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
 }
 
 /* ============================================================================
-   LOADING ANIMATION
+   LOADING STATES
    ============================================================================ */
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
 
 .loading {
     animation: pulse 1.5s infinite;
 }
 
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f0f0f0;
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
 /* ============================================================================
-   SCROLL TO TOP BUTTON
+   UTILITY CLASSES
    ============================================================================ */
 
-.scroll-to-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+.shadow-glow {
+    box-shadow: var(--shadow-glow);
 }
 
-.scroll-to-top.visible {
-    opacity: 1;
-    visibility: visible;
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.scroll-to-top:hover {
+.hover-lift {
+    transition: var(--transition-base);
+}
+
+.hover-lift:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 }
