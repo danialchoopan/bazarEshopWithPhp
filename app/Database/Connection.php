@@ -14,16 +14,22 @@ class Connection
     {
         if (self::$pdo === null) {
             $config = App::getInstance()->get('db');
+            $driver = $config['driver'] ?? 'mysql';
 
-            $dsn = sprintf(
-                'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
-                $config['host'],
-                $config['port'],
-                $config['database']
-            );
+            if ($driver === 'sqlite') {
+                $dsn = sprintf('sqlite:%s', $config['database']);
+            } else {
+                $dsn = sprintf(
+                    '%s:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+                    $driver,
+                    $config['host'],
+                    $config['port'],
+                    $config['database']
+                );
+            }
 
             try {
-                self::$pdo = new PDO($dsn, $config['username'], $config['password'], [
+                self::$pdo = new PDO($dsn, $config['username'] ?? null, $config['password'] ?? null, [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES => false,

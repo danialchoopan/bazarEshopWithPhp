@@ -14,11 +14,12 @@ class App
             'url' => $_ENV['APP_URL'] ?? 'http://localhost/bazarEshopWithPhp/public/',
             'debug' => ($_ENV['APP_DEBUG'] ?? 'false') === 'true',
             'db' => [
+                'driver' => $_ENV['DB_DRIVER'] ?? 'mysql',
                 'host' => $_ENV['DB_HOST'] ?? '127.0.0.1',
                 'port' => $_ENV['DB_PORT'] ?? '3306',
-                'database' => $_ENV['DB_DATABASE'] ?? 'em-reza-shop-db',
-                'username' => $_ENV['DB_USERNAME'] ?? 'root',
-                'password' => $_ENV['DB_PASSWORD'] ?? '',
+                'database' => $_ENV['DB_DATABASE'] ?? __DIR__ . '/../../database/sqlite.db',
+                'username' => $_ENV['DB_USERNAME'] ?? null,
+                'password' => $_ENV['DB_PASSWORD'] ?? null,
             ],
             'upload_max_size' => (int) ($_ENV['UPLOAD_MAX_SIZE'] ?? 5242880),
         ];
