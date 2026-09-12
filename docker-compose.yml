@@ -1,0 +1,130 @@
+version: '3.8'
+
+# Bazar Shop - Complete Docker Compose Setup
+# Includes: PHP/Apache, MySQL, phpMyAdmin
+
+services:
+  # ============================================================================
+  # WEB APPLICATION (PHP + Apache)
+  # ============================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bazar_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"  # Access via http://localhost:8080
+    volumes:
+      # Mount application code for development
+      - .:/var/www/html
+      # Persist SQLite database if using SQLite
+      - ./database/sqlite:/var/www/html/database/sqlite
+      # Persist uploaded images
+      - ./img:/var/www/html/img
+    environment:
+      # Apache document root
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+      # PHP settings
+      - PHP_MEMORY_LIMIT=256M
+      - PHP_UPLOAD_MAX_FILESIZE=10M
+      - PHP_POST_MAX_SIZE=10M
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - bazar_network
+    working_dir: /var/www/html
+
+  # ============================================================================
+  # DATABASE (MySQL 8.0)
+  # ============================================================================
+  db:
+    image: mysql:8.0
+    container_name: bazar_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: em-bazar-shop-db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: bazar_user
+      MYSQL_PASSWORD: bazar_password
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    volumes:
+      # Persist MySQL data
+      - mysql_data:/var/lib/mysql
+      # Auto-run initialization scripts
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"  # Access via localhost:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - bazar_network
+
+  # ============================================================================
+  # DATABASE ADMIN (phpMyAdmin)
+  # ============================================================================
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: bazar_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+      UPLOAD_LIMIT: 50M
+    volumes:
+      - phpmyadmin_data:/root/.phpmyadmin
+    ports:
+      - "8081:80"  # Access via http://localhost:8081
+    depends_on:
+      - db
+    networks:
+      - bazar_network
+
+  # ============================================================================
+  # OPTIONAL: SQLite-only setup (uncomment to use instead of MySQL)
+  # ============================================================================
+  # app_sqlite:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: bazar_app_sqlite
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - .:/var/www/html
+  #     - ./database/sqlite:/var/www/html/database/sqlite
+  #     - ./img:/var/www/html/img
+  #   environment:
+  #     - APACHE_DOCUMENT_ROOT=/var/www/html/public
+  #     - DB_DRIVER=sqlite
+  #     - DB_DATABASE=sqlite/bazar.db
+  #   networks:
+  #     - bazar_network
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  bazar_network:
+    driver: bridge
+    name: bazar_network
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  mysql_data:
+    driver: local
+    name: bazar_mysql_data
+  phpmyadmin_data:
+    driver: local
+    name: bazar_phpmyadmin_data
