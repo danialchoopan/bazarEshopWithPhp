@@ -119,7 +119,7 @@ INSERT OR IGNORE INTO category_post (name, created_at) VALUES
 ('بررسی محصولات', strftime('%s', 'now'));
 
 -- Insert sample products
-INSERT OR IGNORE INTO products (name, description, price, photo, category_product_id, stock, created_at) VALUES
+INSERT OR IGNORE INTO products (name, description, price, photo, category_id, stock, created_at) VALUES
 ('گوشی موبایل آیفون ۱۳', 'گوشی موبایل اپل مدل آیفون ۱۳ با حافظه ۱۲۸ گیگابایت', 35000000, 'iphone13.jpg', 1, 10, strftime('%s', 'now')),
 ('لپ‌تاپ مک‌بوک پرو', 'لپ‌تاپ اپل مدل مک‌بوک پرو ۲۰۲۲ با پردازنده M2', 65000000, 'macbook.jpg', 1, 5, strftime('%s', 'now')),
 ('هدفون بی‌سیم سونی', 'هدفون بی‌سیم سونی مدل WH-1000XM5 با نویز کنسلینگ', 12000000, 'headphone.jpg', 1, 20, strftime('%s', 'now')),

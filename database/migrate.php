@@ -12,31 +12,23 @@
  * @package BazarShop\Database
  */
 
-// Load environment variables
-require_once __DIR__ . '/../vendor/autoload.php';
+// Load environment variables and core classes
+require_once __DIR__ . '/../core/Database.php';
+require_once __DIR__ . '/../core/ErrorHandler.php';
+require_once __DIR__ . '/../core/Csrf.php';
+require_once __DIR__ . '/../core/Auth.php';
+require_once __DIR__ . '/../core/Validator.php';
+require_once __DIR__ . '/../core/CouponManager.php';
+require_once __DIR__ . '/../core/ZarinPalPayment.php';
 
 use BazarShop\Core\Database;
 
 class MigrationManager
 {
-    /**
-     * Migrations table name
-     */
     private const TABLE = 'migrations';
-
-    /**
-     * Migrations directory
-     */
     private string $migrationsDir;
-
-    /**
-     * Database connection
-     */
     private Database $db;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->migrationsDir = __DIR__ . '/migrations';
@@ -44,12 +36,10 @@ class MigrationManager
         $this->ensureMigrationsTable();
     }
 
-    /**
-     * Ensure migrations table exists
-     */
     private function ensureMigrationsTable(): void
     {
-        $sql = "CREATE TABLE IF NOT EXISTS {$this::TABLE} (
+        $tableName = self::TABLE;
+        $sql = "CREATE TABLE IF NOT EXISTS $tableName (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             migration VARCHAR(255) NOT NULL UNIQUE,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -58,31 +48,21 @@ class MigrationManager
         try {
             $this->db->getConnection()->exec($sql);
         } catch (\Exception $e) {
-            // Table might already exist or SQLite syntax issue
             echo "Note: Could not create migrations table: " . $e->getMessage() . "\n";
         }
     }
 
-    /**
-     * Get list of executed migrations
-     * 
-     * @return array Executed migration names
-     */
     private function getExecutedMigrations(): array
     {
         try {
-            $stmt = $this->db->getConnection()->query("SELECT migration FROM {$this::TABLE} ORDER BY id");
+            $tableName = self::TABLE;
+            $stmt = $this->db->getConnection()->query("SELECT migration FROM $tableName ORDER BY id");
             return $stmt->fetchAll(PDO::FETCH_COLUMN);
         } catch (\Exception $e) {
             return [];
         }
     }
 
-    /**
-     * Get list of migration files
-     * 
-     * @return array Migration file names
-     */
     private function getMigrationFiles(): array
     {
         if (!is_dir($this->migrationsDir)) {
@@ -91,17 +71,12 @@ class MigrationManager
 
         $files = scandir($this->migrationsDir);
         $files = array_diff($files, ['.', '..']);
-        
-        // Filter only PHP files and sort
         $files = array_filter($files, fn($f) => str_ends_with($f, '.php'));
         sort($files);
 
         return $files;
     }
 
-    /**
-     * Run all pending migrations
-     */
     public function up(): void
     {
         $executed = $this->getExecutedMigrations();
@@ -110,6 +85,7 @@ class MigrationManager
 
         if (empty($pending)) {
             echo "✓ No pending migrations.\n";
+            $this->runSeeders();
             return;
         }
 
@@ -120,8 +96,6 @@ class MigrationManager
             
             try {
                 require_once $this->migrationsDir . '/' . $file;
-                
-                // Extract class name from filename (e.g., 20240101_create_users_table.php -> CreateUsersTable)
                 $className = $this->filenameToClassName($file);
                 
                 if (!class_exists($className)) {
@@ -131,8 +105,8 @@ class MigrationManager
                 $migration = new $className($this->db);
                 $migration->up();
 
-                // Record migration
-                $stmt = $this->db->getConnection()->prepare("INSERT INTO {$this::TABLE} (migration) VALUES (?)");
+                $tableName = self::TABLE;
+                $stmt = $this->db->getConnection()->prepare("INSERT INTO $tableName (migration) VALUES (?)");
                 $stmt->execute([$file]);
 
                 echo "✓ Completed: {$file}\n\n";
@@ -145,11 +119,34 @@ class MigrationManager
         }
 
         echo "✓ All migrations completed successfully.\n";
+        $this->runSeeders();
+    }
+    
+    private function runSeeders(): void
+    {
+        $seedData = getenv('SEED_DATA') ?: 'true';
+        
+        if (filter_var($seedData, FILTER_VALIDATE_BOOLEAN)) {
+            echo "\n🌱 SEED_DATA is enabled. Running seeders...\n";
+            
+            $seederFile = __DIR__ . '/seeder.php';
+            if (file_exists($seederFile)) {
+                try {
+                    require_once $seederFile;
+                    $seeder = new DatabaseSeeder($this->db);
+                    $seeder->run();
+                    echo "✓ Seeding completed successfully.\n";
+                } catch (\Exception $e) {
+                    echo "✗ Seeding failed: " . $e->getMessage() . "\n";
+                }
+            } else {
+                echo "⚠ Seeder file not found. Skipping seeding.\n";
+            }
+        } else {
+            echo "\n⊘ SEED_DATA is disabled. Skipping seeding.\n";
+        }
     }
 
-    /**
-     * Rollback last migration
-     */
     public function down(): void
     {
         $executed = $this->getExecutedMigrations();
@@ -164,7 +161,6 @@ class MigrationManager
 
         try {
             require_once $this->migrationsDir . '/' . $lastMigration;
-            
             $className = $this->filenameToClassName($lastMigration);
             
             if (!class_exists($className)) {
@@ -174,8 +170,8 @@ class MigrationManager
             $migration = new $className($this->db);
             $migration->down();
 
-            // Remove migration record
-            $stmt = $this->db->getConnection()->prepare("DELETE FROM {$this::TABLE} WHERE migration = ?");
+            $tableName = self::TABLE;
+            $stmt = $this->db->getConnection()->prepare("DELETE FROM $tableName WHERE migration = ?");
             $stmt->execute([$lastMigration]);
 
             echo "✓ Rolled back: {$lastMigration}\n";
@@ -186,9 +182,6 @@ class MigrationManager
         }
     }
 
-    /**
-     * Show migration status
-     */
     public function status(): void
     {
         $executed = $this->getExecutedMigrations();
@@ -220,19 +213,10 @@ class MigrationManager
         echo "\n";
     }
 
-    /**
-     * Convert filename to class name
-     * 
-     * @param string $filename Migration filename
-     * @return string Class name
-     */
     private function filenameToClassName(string $filename): string
     {
-        // Remove timestamp prefix and .php extension
         $name = preg_replace('/^\d{14}_/', '', $filename);
         $name = str_replace('.php', '', $name);
-        
-        // Convert snake_case to PascalCase
         $name = str_replace('_', ' ', $name);
         $name = ucwords($name);
         $name = str_replace(' ', '', $name);
@@ -241,7 +225,6 @@ class MigrationManager
     }
 }
 
-// CLI interface
 if (php_sapi_name() === 'cli') {
     $manager = new MigrationManager();
     

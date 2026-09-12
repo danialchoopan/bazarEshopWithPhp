@@ -38,7 +38,6 @@ try {
 
     // Get order amount from database
     require_once __DIR__ . '/../../core/Database.php';
-    use BazarShop\Core\Database;
     
     $db = new Database();
     $stmt = $db->getConnection()->prepare("SELECT total_amount FROM orders WHERE id = ?");
